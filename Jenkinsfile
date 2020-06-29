@@ -46,9 +46,8 @@ spec:
   stages {
     stage('Test') {
       steps {
-        container('golang') {
-          sh "npm install"
-          sh "npm test"
+        container('golang') 
+           sh "/usr/bin/npm install"
         }
       }
     }
