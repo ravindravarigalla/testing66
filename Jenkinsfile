@@ -22,14 +22,12 @@ spec:
 }
   }
   stages {
-    stage('Test') {
-      steps {
-        container('golang') {
-          sh "npm install"
-          sh "npm test"
+        stage ("Build") {
+           steps {
+              sh "/usr/bin/npm install"
+           }
         }
-      }
-    }
+     }
     stage('Build and push image with Container Builder') {
       steps {
         container('gcloud') {
