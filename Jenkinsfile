@@ -24,7 +24,7 @@ spec:
   # Use service account that can deploy to all namespaces
   
   containers:
-  - name: golang
+  - name: nodejs
     image: golang:1.10
     command:
     - cat
@@ -46,7 +46,8 @@ spec:
   stages {
         stage ("Build") {
            steps {
-              sh "/usr/bin/npm install"
+             container ('nodejs')
+              sh "npm install"
            }
         }
      }
