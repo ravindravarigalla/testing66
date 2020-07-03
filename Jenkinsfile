@@ -25,7 +25,7 @@ spec:
   
   containers:
   - name: nodejs
-    image: golang:1.10
+    image: node:10.11.0-alpine
     command:
     - cat
     tty: true
