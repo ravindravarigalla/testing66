@@ -66,12 +66,11 @@ spec:
         container('helm') {
           sh """
           #helm ls
-          #aws eks --region us-east-2 update-kubeconfig --name cloudfront
-          #helm repo add stable https://kubernetes-charts.storage.googleapis.com/ 
-          #helm repo update 
-          #helm install sample sampleapp/ --namespace test
+          aws eks --region us-east-2 update-kubeconfig --name cloudfront
+          helm repo add stable https://kubernetes-charts.storage.googleapis.com/ 
+          helm repo update 
+          helm install sample sampleapp/ --namespace test
           #helm ls
-          kubectl get pods --namespace default
           kubectl run nginx44 --image=nginx
           """ 
         }
