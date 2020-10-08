@@ -35,7 +35,7 @@ spec:
     - cat
     tty: true
   - name: helm
-    image: dtzar/helm-kubectl
+    image: 807030547932.dkr.ecr.us-east-2.amazonaws.com/new:latest
     command:
     - cat
     tty: true
