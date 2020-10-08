@@ -24,8 +24,8 @@ spec:
   # Use service account that can deploy to all namespaces
   
   containers:
-  - name: nodejs
-    image: node:10.11.0-alpine
+  - name: aws
+    image: amazon/aws-cli:latest
     command:
     - cat
     tty: true
@@ -35,7 +35,7 @@ spec:
     - cat
     tty: true
   - name: helm
-    image: us.gcr.io/still-smithy-279711/helm3
+    image: us.gcr.io/still-smithy-279711/helm
     command:
     - cat
     tty: true
@@ -46,16 +46,16 @@ spec:
   stages {
         stage ("Build") {
            steps {
-             container ('nodejs')
-              sh "npm install"
+             container ('aws')
+              sh "aws eks --region us-east-2 update-kubeconfig --name cloudfront"
            }
         }
      }
     stage('Build and push image with Container Builder') {
       steps {
         container('gcloud') {
-          sh "gcloud auth list"
-          sh "PYTHONUNBUFFERED=1 gcloud builds submit -t  us.gcr.io/still-smithy-279711/nodejs . "
+          sh "#gcloud auth list"
+          sh "#PYTHONUNBUFFERED=1 gcloud builds submit -t  us.gcr.io/still-smithy-279711/nodejs . "
         }
       }
     }
