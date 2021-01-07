@@ -1,17 +1,27 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Hello') {
-            steps {
-                sh """
-                   docker images
-                   docker build -t test .
-                   docker tag test ravindra777/adservice:v2
-                   docker login -u ravindra777 -p ravindra77
-                   docker push ravindra777/adservice:v2
-                   """
-            }
+  environment {
+    registry = "trainingad1/ms-ref-service-a"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
+      }
     }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+  }
 }
+
