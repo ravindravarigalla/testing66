@@ -2,7 +2,7 @@ pipeline {
   environment {
     registry = "trainingad1/ms-ref-service-a"
     registryCredential = 'dockerhub'
-    dockerImage = 'docker'
+    dockerImage = ''
   }
   agent any
   stages {
