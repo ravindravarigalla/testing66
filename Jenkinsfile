@@ -26,10 +26,6 @@ spec:
     volumeMounts:
       - name: docker-config
         mountPath: /kaniko/.docker
-    resources:
-      limits:
-        cpu: 1
-        memory: 1Gi
   volumes:
   - name: docker-config
     projected:
