@@ -20,24 +20,34 @@ labels:
 spec:
   # Use service account that can deploy to all namespaces
   containers:
-  - name: sonar-scanner
-    image: sonarsource/sonar-scanner-cli
-    command:
-    - cat
-    tty: true
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:v1.0.0
+    imagePullPolicy: Always
+    volumeMounts:
+      - name: docker-config
+        mountPath: /kaniko/.docker
+    resources:
+      limits:
+        cpu: 1
+        memory: 1Gi
+  volumes:
+  - name: docker-config
+    projected:
+      sources:
+      - secret:
+          name: regcred
+          items:
+            - key: .dockerconfigjson
+              path: config.json
 """
 }
   }
   stages {
     stage ('SAST') {
       steps {
-        container ('sonar-scanner'){
+        container ('kaniko'){
           sh """
-              sonar-scanner \
-               -Dsonar.projectKey=cartservice \
-               -Dsonar.sources=. \
-               -Dsonar.host.url=http://34.67.53.8:9000 \
-               -Dsonar.login=b7d5646b95b8e022db198431a949d8766ff82f0d
+              /kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=ravindra777/test
              """
         }
       }
