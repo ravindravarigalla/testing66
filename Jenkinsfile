@@ -20,30 +20,20 @@ labels:
 spec:
   # Use service account that can deploy to all namespaces
   containers:
-  - name: kaniko
-    image: gcr.io/kaniko-project/executor:v1.0.0
-    imagePullPolicy: Always
-    volumeMounts:
-      - name: docker-config
-        mountPath: /kaniko/.docker
-  volumes:
-  - name: docker-config
-    projected:
-      sources:
-      - secret:
-          name: regcred
-          items:
-            - key: .dockerconfigjson
-              path: config.json
+  - name: helm
+    image: gcr.io/dazzling-scheme-281712/helm3-test
+    command:
+    - cat
+    tty: true
 """
 }
   }
   stages {
     stage ('SAST') {
       steps {
-        container ('kaniko'){
+        container ('helm'){
           sh """
-              #/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=ravindra777/test
+              kubectl get pods -n bootcamp
              """
         }
       }
